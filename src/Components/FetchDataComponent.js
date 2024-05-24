@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { fetchData, postData } from './ApiService';
+import React, { useEffect, useRef, useState } from 'react';
+import { fetchData, postData } from '../Components/ApiService';
+import createAxiosInstance from '../Components/AxiosInstance';
 
 const FetchDataComponent = () => {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
+  const axiosInstance = useRef(createAxiosInstance()).current;
 
   useEffect(() => {
     const getData = async () => {
       try {
-        const result = await fetchData();
+        const result = await fetchData(axiosInstance);
         setData(result);
       } catch (error) {
         setError(error.message);
@@ -16,14 +18,12 @@ const FetchDataComponent = () => {
     };
 
     getData();
-  }, []);
+  }, [axiosInstance]);
 
   const handlePostData = async () => {
     try {
-      const response = await postData({ key: 'value' }); // Modify the object as needed
+      const response = await postData(axiosInstance, { key: 'value' });
       console.log('Post response:', response);
-      // Optionally, fetch data again after posting
-      // await fetchData();
     } catch (error) {
       setError(error.message);
     }
@@ -38,7 +38,7 @@ const FetchDataComponent = () => {
           <button onClick={handlePostData}>Post Data</button>
         </div>
       ) : (
-        <p>Loading...</p>
+        <p>Loading..</p>
       )}
     </div>
   );
