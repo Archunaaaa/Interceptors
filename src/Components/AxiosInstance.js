@@ -8,14 +8,14 @@ const getToken = () => {
 // Create an instance of Axios
 const createAxiosInstance = () => {
   const axiosInstance = axios.create({
-    baseURL: 'https://64d60e47754d3e0f13618812.mockapi.io/form', 
-    timeout: 10000, 
+    baseURL: 'https://64d60e47754d3e0f13618812.mockapi.io/form',
+    timeout: 10000,
   });
 
   // Request Interceptor
   axiosInstance.interceptors.request.use(
     (config) => {
-      const token = getToken(); 
+      const token = getToken();
       if (token) {
         config.headers['Authorization'] = `Bearer ${token}`;
       }

@@ -1,4 +1,3 @@
-
 export const fetchData = async (axiosInstance) => {
   const response = await axiosInstance.get('/Interceptors');
   return response.data;
